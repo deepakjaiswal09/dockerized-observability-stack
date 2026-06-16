@@ -1,152 +1,300 @@
-🚀 Standalone Observability & Monitoring Stack
+# 🚀 Standalone Observability & Monitoring Stack
 
-A production-ready, containerized observability platform designed to provide Metrics, Logs, Traces, Alerting, and Infrastructure Monitoring for any application or microservice architecture.
+## Overview
 
-This stack can run completely standalone or be integrated with existing applications with minimal configuration.
+This project is a complete, production-ready observability platform built using industry-standard open-source tools. It provides centralized monitoring, logging, distributed tracing, infrastructure visibility, and alerting for any application or microservice architecture.
 
-📌 Overview
+The stack is designed to run independently and can be integrated with any service by connecting it to the shared Docker network and exposing metrics, logs, and traces.
 
-Modern distributed systems require visibility into application health, infrastructure performance, errors, logs, and request flows.
+---
 
-This project provides a complete observability solution using industry-standard open-source tools:
+# Architecture
 
-Component	Purpose
-Grafana	Visualization & Dashboards
-Prometheus	Metrics Collection
-Alertmanager	Alert Routing & Notifications
-Fluent Bit	Log Collection & Forwarding
-Elasticsearch	Log Storage & Search
-Kibana	Log Analytics
-Jaeger	Distributed Tracing
-OpenTelemetry	Trace Generation
-Node Exporter	Host Metrics
-cAdvisor	Container Metrics
-Docker Compose	Orchestration
-🏗 Architecture
-┌─────────────────────────────┐
-│      Application(s)         │
-│ NodeJS / Java / Python      │
-└────────────┬────────────────┘
+```text
+Applications / Microservices
+            │
+            ▼
+
+ ┌───────────────────────────┐
+ │     Observability Stack   │
+ └───────────────────────────┘
+
+      ┌───────────────┐
+      │ Prometheus    │ ◄── Metrics
+      └──────┬────────┘
              │
- ┌───────────┼───────────┐
- │           │           │
- ▼           ▼           ▼
+             ▼
+      ┌───────────────┐
+      │ Grafana       │
+      └───────────────┘
 
-Metrics     Logs      Traces
-(Prometheus)(FluentBit)(OTEL)
+      ┌───────────────┐
+      │ Fluent Bit    │ ◄── Container Logs
+      └──────┬────────┘
+             ▼
+      ┌───────────────┐
+      │ Elasticsearch │
+      └──────┬────────┘
+             ▼
+      ┌───────────────┐
+      │ Kibana        │
+      └───────────────┘
 
- │           │           │
- ▼           ▼           ▼
+      ┌───────────────┐
+      │ OpenTelemetry │ ◄── Traces
+      └──────┬────────┘
+             ▼
+      ┌───────────────┐
+      │ Jaeger        │
+      └───────────────┘
 
-Prometheus Elasticsearch Jaeger
+      ┌───────────────┐
+      │ Alertmanager  │
+      └───────────────┘
 
- │           │
- ▼           ▼
+      ┌───────────────┐
+      │ Node Exporter │
+      └───────────────┘
 
-Grafana     Kibana
+      ┌───────────────┐
+      │ cAdvisor      │
+      └───────────────┘
+```
 
- │
- ▼
+---
 
-Alertmanager
- │
- ▼
-Email / Slack / Teams
-✨ Features
-📊 Metrics Monitoring
+# Components
 
-Collects:
+## Grafana
 
-CPU Usage
-Memory Usage
-Disk Usage
-Network Traffic
-Container Metrics
-Application Metrics
-Custom Business Metrics
-
-Powered by:
-
-Prometheus
-Node Exporter
-cAdvisor
-📜 Centralized Logging
-
-Collects logs from:
-
-Docker Containers
-Application Logs
-Backend Services
-Workers
+Visualization and dashboarding platform.
 
 Features:
 
-Full-text Search
-Log Filtering
-Log Correlation
-Error Investigation
+* Infrastructure dashboards
+* Application dashboards
+* Alerting
+* Custom visualizations
 
-Powered by:
+Access:
 
-Fluent Bit
-Elasticsearch
-Kibana
-🔍 Distributed Tracing
+```bash
+http://localhost:3000
+```
 
-Track requests across services.
+---
 
-Provides:
+## Prometheus
 
-Request Flow Visualization
-Latency Analysis
-Error Tracking
-Bottleneck Detection
+Metrics collection and storage.
 
-Powered by:
+Collects:
 
-OpenTelemetry
-Jaeger
-🚨 Alerting
+* Host metrics
+* Container metrics
+* Application metrics
+* Custom business metrics
+
+Access:
+
+```bash
+http://localhost:9090
+```
+
+---
+
+## Alertmanager
+
+Handles Prometheus alerts.
 
 Supports:
 
-Email Alerts
-Slack Alerts
-Microsoft Teams
-Webhooks
+* Email
+* Slack
+* Teams
+* Webhooks
 
-Examples:
+Access:
 
-High CPU Usage
-Memory Threshold Breach
-Container Down
-Application Errors
-Service Unavailability
+```bash
+http://localhost:9093
+```
+
+---
+
+## Fluent Bit
+
+Lightweight log collector.
+
+Collects:
+
+* Docker container logs
+* Application logs
+* System logs
+
+Forwards logs to Elasticsearch.
+
+---
+
+## Elasticsearch
+
+Stores logs for indexing and searching.
+
+Access:
+
+```bash
+http://localhost:9200
+```
+
+---
+
+## Kibana
+
+Log exploration and visualization.
+
+Features:
+
+* Log search
+* Filtering
+* Correlation
+* Error investigation
+
+Access:
+
+```bash
+http://localhost:5601
+```
+
+---
+
+## Jaeger
+
+Distributed tracing platform.
+
+Features:
+
+* Request tracing
+* Service dependency mapping
+* Latency analysis
+* Root cause analysis
+
+Access:
+
+```bash
+http://localhost:16686
+```
+
+---
+
+## Node Exporter
+
+Collects host-level metrics.
+
+Metrics include:
+
+* CPU
+* Memory
+* Disk
+* Network
+
+---
+
+## cAdvisor
+
+Collects container-level metrics.
+
+Metrics include:
+
+* Container CPU
+* Container Memory
+* Filesystem usage
+* Network usage
+
+Access:
+
+```bash
+http://localhost:8080
+```
+
+---
+
+# Features
+
+## Metrics Monitoring
+
+Monitors:
+
+* CPU utilization
+* Memory consumption
+* Disk usage
+* Network activity
+* Container health
+* Application performance
 
 Powered by:
 
-Prometheus Alert Rules
-Alertmanager
-Grafana Alerting
-🖥 Infrastructure Monitoring
+* Prometheus
+* Node Exporter
+* cAdvisor
 
-Monitor:
+---
 
-Docker Containers
-Host System
-CPU
-RAM
-Disk
-Network
-Container Resource Consumption
+## Centralized Logging
+
+Provides:
+
+* Container log aggregation
+* Log search
+* Error analysis
+* Historical log retention
 
 Powered by:
 
-Node Exporter
-cAdvisor
-📁 Project Structure
+* Fluent Bit
+* Elasticsearch
+* Kibana
+
+---
+
+## Distributed Tracing
+
+Provides:
+
+* End-to-end request visibility
+* Latency breakdown
+* Error tracing
+* Service dependency analysis
+
+Powered by:
+
+* OpenTelemetry
+* Jaeger
+
+---
+
+## Alerting
+
+Supports:
+
+* CPU alerts
+* Memory alerts
+* Service down alerts
+* Application health alerts
+* Custom business alerts
+
+Powered by:
+
+* Prometheus
+* Alertmanager
+* Grafana
+
+---
+
+# Project Structure
+
+```text
 observability-stack/
-│
+
 ├── prometheus/
 │   ├── prometheus.yml
 │   └── alert.rules.yml
@@ -154,19 +302,19 @@ observability-stack/
 ├── alertmanager/
 │   └── alertmanager.yml
 │
-├── fluentbit/
-│   └── fluent-bit.conf
-│
-├── grafana/
-│   └── provisioning/
-│       ├── datasources/
-│       └── dashboards/
-│
 ├── elasticsearch/
 │   └── elasticsearch.yml
 │
 ├── kibana/
 │   └── kibana.yml
+│
+├── fluentbit/
+│   └── fluent-bit.conf
+│
+├── grafana/
+│   └── provisioning/
+│       ├── dashboards/
+│       └── datasources/
 │
 ├── jaeger/
 │
@@ -177,105 +325,60 @@ observability-stack/
 ├── docker-compose.yml
 │
 └── .env
-🐳 Included Services
-Grafana
+```
 
-Access:
+---
 
-http://localhost:3000
+# Running the Stack
 
-Purpose:
+Start all services:
 
-Dashboards
-Alerting
-Metrics Visualization
-Prometheus
+```bash
+docker compose up -d
+```
 
-Access:
+Verify containers:
 
-http://localhost:9090
+```bash
+docker ps
+```
 
-Purpose:
+---
 
-Metrics Storage
-Alert Rule Evaluation
-Service Scraping
-Alertmanager
+# Integrating a New Service
 
-Access:
+## Step 1: Connect to Shared Network
 
-http://localhost:9093
+In your service compose file:
 
-Purpose:
+```yaml
+networks:
+  observability-network:
+    external: true
+```
 
-Alert Routing
-Email Notifications
-Alert Grouping
-Elasticsearch
+Attach service:
 
-Access:
+```yaml
+services:
+  my-service:
+    networks:
+      - observability-network
+```
 
-http://localhost:9200
+---
 
-Purpose:
+## Step 2: Expose Metrics
 
-Log Storage
-Log Search
-Kibana
+Install:
 
-Access:
-
-http://localhost:5601
-
-Purpose:
-
-Log Visualization
-Log Analytics
-Jaeger
-
-Access:
-
-http://localhost:16686
-
-Purpose:
-
-Distributed Tracing
-Trace Analysis
-Node Exporter
-
-Access:
-
-http://localhost:9100/metrics
-
-Purpose:
-
-Host Metrics
-cAdvisor
-
-Access:
-
-http://localhost:8080
-
-Purpose:
-
-Container Metrics
-🔌 Integrating Any Service
-
-Any service can integrate with this stack.
-
-Metrics Integration
-
-Expose:
-
-/metrics
-
-using:
-
-NodeJS
+```bash
 npm install prom-client
+```
 
 Example:
 
+```typescript
 import client from "prom-client";
 
 client.collectDefaultMetrics();
@@ -284,164 +387,173 @@ app.get("/metrics", async (_, res) => {
   res.set("Content-Type", client.register.contentType);
   res.end(await client.register.metrics());
 });
+```
 
-Then add to:
+---
 
-prometheus.yml
+## Step 3: Configure Prometheus
+
+Add scrape target:
+
+```yaml
 - job_name: my-service
   static_configs:
     - targets:
         - my-service:3000
-Logging Integration
+```
 
-Docker logs are automatically collected by Fluent Bit.
+Restart Prometheus:
 
-No application changes required.
+```bash
+docker compose restart prometheus
+```
 
-Optional:
+---
 
-Use structured JSON logs.
+## Step 4: Enable Distributed Tracing
 
-Example:
+Install:
 
-{
-  "level": "info",
-  "message": "User login",
-  "userId": "123"
-}
-Tracing Integration
-
-Install OpenTelemetry.
-
-Example:
-
+```bash
 npm install \
 @opentelemetry/sdk-node \
-@opentelemetry/auto-instrumentations-node
+@opentelemetry/auto-instrumentations-node \
+@opentelemetry/exporter-trace-otlp-http
+```
 
-Configure:
+Example:
 
+```typescript
 new OTLPTraceExporter({
   url: "http://jaeger:4318/v1/traces"
 });
+```
 
-Service appears automatically in Jaeger.
+Service will automatically appear inside Jaeger.
 
-📧 Alerting Setup
+---
 
-Configure:
+## Step 5: Enable Logging
 
-alertmanager.yml
+No application changes required.
+
+Fluent Bit automatically collects Docker logs.
+
+Recommended:
+
+Use structured JSON logging.
 
 Example:
 
-receivers:
-  - name: email
-    email_configs:
-      - to: alerts@example.com
+```json
+{
+  "level": "info",
+  "message": "Notification sent",
+  "userId": "123"
+}
+```
 
-Supports:
+---
 
-Gmail
-Outlook
-SMTP Servers
-Slack
-Teams
-Webhooks
-📈 Prebuilt Dashboards
+# Verification
 
-Included dashboards:
+## Prometheus
 
-Node Exporter Full
+Open:
 
-Provides:
+```bash
+http://localhost:9090
+```
 
-CPU Usage
-Memory Usage
-Disk Usage
-Network Usage
-Docker Monitoring
+Check:
 
-Provides:
+```promql
+up
+```
 
-Container CPU
-Container Memory
-Container Restarts
-Container Health
-Application Metrics
+---
 
-Provides:
+## Metrics Endpoint
 
-Request Count
-Response Time
-Error Rate
-Active Connections
-🔒 Security Recommendations
+```bash
+http://localhost:<PORT>/metrics
+```
 
-Production deployments should:
+Expected:
 
-Use TLS
-Enable Grafana Authentication
-Secure Elasticsearch
-Restrict Dashboard Access
-Store Secrets in Vault
-Use Docker Secrets
-🚀 Startup
+```text
+# HELP ...
+# TYPE ...
+```
 
-Run:
+---
 
-docker compose up -d
+## Kibana
+
+Open:
+
+```bash
+http://localhost:5601
+```
+
+Search:
+
+```text
+container_name
+```
+
+Verify logs are flowing.
+
+---
+
+## Jaeger
+
+Open:
+
+```bash
+http://localhost:16686
+```
 
 Verify:
 
-docker ps
-🧪 Health Checks
+* Service appears
+* Traces are generated
+* Operations are visible
 
-Grafana:
+---
 
-http://localhost:3000
-
-Prometheus:
-
-http://localhost:9090
-
-Kibana:
-
-http://localhost:5601
-
-Jaeger:
-
-http://localhost:16686
-🎯 Use Cases
+# Use Cases
 
 Suitable for:
 
-Microservices
-Monolith Applications
-SaaS Platforms
-E-Commerce Systems
-Backend APIs
-Event-Driven Architectures
-Containerized Workloads
-Kubernetes Migration Readiness
-🏆 Outcomes
+* Node.js Applications
+* Java Applications
+* Python Applications
+* Microservices
+* Monoliths
+* Event-Driven Systems
+* Containerized Workloads
+* Kubernetes Migration
 
-This stack enables:
+---
 
-✅ Centralized Monitoring
-✅ Centralized Logging
-✅ Distributed Tracing
-✅ Infrastructure Monitoring
-✅ Application Monitoring
-✅ Proactive Alerting
-✅ Faster Incident Resolution
-✅ Root Cause Analysis
-✅ Performance Optimization
-✅ Production Observability
+# Benefits
 
-Author
+* Centralized Monitoring
+* Centralized Logging
+* Distributed Tracing
+* Infrastructure Visibility
+* Faster Incident Resolution
+* Root Cause Analysis
+* Performance Optimization
+* Production Readiness
 
-Deepak Jai Shopcardd
-DevOps | Platform Engineering | Observability Engineering
+---
 
-Built as a reusable standalone observability platform capable of monitoring and troubleshooting any modern application stack.
+# Author
+
+Deepak Jai
+
+DevOps Engineer | Platform Engineering | Observability Engineering
+
+Built as a reusable standalone observability platform capable of monitoring, tracing, logging, and alerting for any modern application stack.
