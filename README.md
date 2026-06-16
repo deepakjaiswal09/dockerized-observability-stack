@@ -552,7 +552,7 @@ Suitable for:
 
 # Author
 
-Deepak Jai
+Deepak Jaiswal
 
 DevOps Engineer | Platform Engineering | Observability Engineering
 
